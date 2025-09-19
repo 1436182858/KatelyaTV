@@ -141,3 +141,14 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: '重置用户设置失败' }, { status: 500 });
   }
 }
+// /app/api/test/simple/route.js
+// 添加这一行来指定使用 Edge Runtime
+export const runtime = 'edge';
+
+// 你的 API 处理逻辑
+export async function GET(request) {
+  // 处理请求的代码
+  return new Response(JSON.stringify({ message: '成功' }), {
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
