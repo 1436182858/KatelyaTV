@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorage } from '@/lib/db';
 import { UserSettings } from '@/lib/types';
 
-// 设置运行时为 Edge Runtime，确保部署兼容性
+// 仅保留1次 Edge Runtime 配置（必须唯一）
 export const runtime = 'edge';
 
-// 获取用户设置
+// 获取用户设置（用户路由的GET方法，唯一）
 export async function GET(_request: NextRequest) {
   try {
     const headersList = headers();
@@ -42,13 +42,12 @@ export async function GET(_request: NextRequest) {
       }
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error getting user settings:', error);
     return NextResponse.json({ error: '获取用户设置失败' }, { status: 500 });
   }
 }
 
-// 更新用户设置
+// 更新用户设置（用户路由的PATCH方法，唯一）
 export async function PATCH(request: NextRequest) {
   try {
     const headersList = headers();
@@ -92,13 +91,12 @@ export async function PATCH(request: NextRequest) {
       }
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error updating user settings:', error);
     return NextResponse.json({ error: '更新用户设置失败' }, { status: 500 });
   }
 }
 
-// 重置用户设置
+// 重置用户设置（用户路由的PUT方法，唯一）
 export async function PUT(request: NextRequest) {
   try {
     const headersList = headers();
@@ -136,19 +134,7 @@ export async function PUT(request: NextRequest) {
       message: '设置已重置' 
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error resetting user settings:', error);
     return NextResponse.json({ error: '重置用户设置失败' }, { status: 500 });
   }
-}
-// /app/api/test/simple/route.js
-// 添加这一行来指定使用 Edge Runtime
-export const runtime = 'edge';
-
-// 你的 API 处理逻辑
-export async function GET(request) {
-  // 处理请求的代码
-  return new Response(JSON.stringify({ message: '成功' }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
 }
